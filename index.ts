@@ -19,15 +19,18 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-import { Element, load } from 'cheerio'
+import { load } from 'cheerio'
 import { Plugin, ResolvedConfig } from 'vite'
-// import fetch from 'node:node-fetch'
 import { writeFileSync, readFileSync } from 'fs'
 import { createHash } from 'node:crypto'
 import { resolve } from 'path'
 import { OutputBundle } from 'rollup'
 
-export default function sri(): Plugin {
+type VitePluginSriOptions = {
+  hashFunc: 'sha256' | 'sha384' | 'sha512'
+}
+
+export default function sri(theOptions?: VitePluginSriOptions): Plugin {
   let config: ResolvedConfig
   const bundle: OutputBundle = {}
 
@@ -73,6 +76,7 @@ export default function sri(): Plugin {
         const scripts = $('script').filter('[src]')
         const stylesheets = $('link').filter('[href]')
 
+        type Element = typeof scripts[0]
         const calculateIntegrityHashes = async (element: Element) => {
           let source: string | Uint8Array | undefined
           const attributeName = element.attribs.src ? 'src' : 'href'
@@ -104,11 +108,13 @@ export default function sri(): Plugin {
             }
           }
 
-          if (source)
-            element.attribs.integrity = `sha384-${createHash('sha384')
+          if (source) {
+            const hash = theOptions?.hashFunc ?? 'sha384'
+            element.attribs.integrity = `${hash}-${createHash(hash)
               .update(source)
               .digest()
               .toString('base64')}`
+          }
 
           if (element.attribs.crossorigin === void 0) {
             // 在进行跨域资源请求时，integrity必须配合crossorigin使用，不然浏览器会丢弃这个资源的请求
