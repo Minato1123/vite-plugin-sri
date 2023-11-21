@@ -16,7 +16,7 @@ In your `vite.config.js` file:
 
 ```js
 import { defineConfig } from 'vite'
-import sri from 'vite-plugin-sri'
+import sri from '@minato1123/vite-plugin-sri'
 
 export default defineConfig({
   // …
@@ -26,13 +26,34 @@ export default defineConfig({
 })
 ```
 
+### Problem
+```ts
+// vite.config.ts
+
+type 'Plugin_2' 'Plugin' is not assignable to type 'PluginOption'.
+```
+* Solution Reference [here](https://github.com/vitejs/vite/issues/13027)
+```json
+// tsconfig.json
+
+{
+  "compilerOptions": {
+    // ...
+    "paths": {
+      "vite": ["./node_modules/vite"]
+    }
+  }
+}
+```
+
+
 ## Test and coverage
 
-Run `npm test` to test, `npm run coverage` to run coverage.
+Run `pnpm test` to test, `pnpm coverage` to run coverage.
 
 ## Build
 
-Run `npm run build`
+Run `pnpm build`
 
 This will generate legacy CommonJS version of the module for compatibility with older Node projects.
 
