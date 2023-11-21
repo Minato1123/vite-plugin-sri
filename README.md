@@ -10,7 +10,7 @@
 
 Adds subresource integrity hashes to script and stylesheet imports from your _index.html_ file at build time.
 
-## Use
+## Usage
 
 In your `vite.config.js` file:
 
@@ -19,7 +19,6 @@ import { defineConfig } from 'vite'
 import sri from '@minato1123/vite-plugin-sri'
 
 export default defineConfig({
-  // …
   plugins: [
     sri({ hashFunc: 'sha384' }) // sha256, sha512
   ]
@@ -33,12 +32,11 @@ export default defineConfig({
 type 'Plugin_2' 'Plugin' is not assignable to type 'PluginOption'.
 ```
 * Solution Reference [here](https://github.com/vitejs/vite/issues/13027)
-```json
+```ts
 // tsconfig.json
 
 {
   "compilerOptions": {
-    // ...
     "paths": {
       "vite": ["./node_modules/vite"]
     }
