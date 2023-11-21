@@ -1,6 +1,6 @@
 # vite-plugin-sri
 
-## forked from [@small-tech/vite-plugin-sri](https://github.com/small-tech/vite-plugin-sr)
+## forked from [@small-tech/vite-plugin-sri](https://github.com/small-tech/vite-plugin-sr) & [JonathanLee-LX/vite-plugin-sri](https://github.com/JonathanLee-LX/vite-plugin-sri)
 
 **@small-tech/vite-plugin-sri** generates the integrity value in the transformIndexHtml hook, and if **dynamic imports** are used in the code, the correct integrity cannot be generated. This plugin is designed to solve this problem.
 
@@ -9,12 +9,6 @@
 [Subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) (SRI) plugin for [Vite](https://vitejs.dev/).
 
 Adds subresource integrity hashes to script and stylesheet imports from your _index.html_ file at build time.
-
-## Install
-
-```shell
-npm i --save-dev vite-plugin-sri
-```
 
 ## Use
 
@@ -26,14 +20,10 @@ import sri from 'vite-plugin-sri'
 
 export default defineConfig({
   // …
-  plugins: [sri()]
+  plugins: [
+    sri({ hashFunc: 'sha384' }) // sha256, sha512
+  ]
 })
-```
-
-Then:
-
-```shell
-npx vite build
 ```
 
 ## Test and coverage
